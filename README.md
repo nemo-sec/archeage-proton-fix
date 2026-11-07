@@ -8,8 +8,10 @@ It uses a **private copy of Proton** without replacing shared Proton or patching
 **Experimental:** Linux x86-64 with native Steam only. Tested on Fedora Silverblue, Bazzite; other setups are unverified. There is no guarantee of anti-cheat acceptance or account safety.  
 **Install**  
 1. Exit the game and use **Steam → Exit**, not just close the window.  
-2. Open a terminal and run:  
-curl -fL --proto '=https' --proto-redir '=https' -o archeage-setup.sh \   https://raw.githubusercontent.com/nemo-sec/archeage-proton-fix/main/setup.sh && sh archeage-setup.sh  
+2. Open a terminal and run:
+3.```  
+curl -fL --proto '=https' --proto-redir '=https' -o archeage-setup.sh \   https://raw.githubusercontent.com/nemo-sec/archeage-proton-fix/main/setup.sh && sh archeage-setup.sh   ```
+
 Run **without sudo**. Setup downloads the repo and DLL, checks requirements, and asks before installing system packages. The installer backs up the game's Windows settings/saves and never overwrites existing installations or backups.  
 1. Follow the prompts. If available, choose `proton-cachyos-slr`, the tested base Proton.  
 2. Start Steam and right-click **ArcheAge Chronicles**:  
