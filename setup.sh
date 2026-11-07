@@ -4,7 +4,7 @@
 # Steam changes require separate approval in the existing Python installer.
 set -u
 
-REPOSITORY_URL='https://codeload.github.com/codecorsair/archeage-proton-fix/tar.gz/refs/heads/main'
+REPOSITORY_URL='https://codeload.github.com/nemo-sec/archeage-proton-fix/tar.gz/refs/heads/main'
 DEFAULT_DIRECTORY="${HOME:-}/.local/share/archeage-proton-fix-setup"
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" 2>/dev/null && pwd -P) || exit 1
 PYTHON_BIN=
@@ -290,6 +290,12 @@ run_checks() {
 }
 
 package_manager() {
+    # Fedora Silverblue/Bazzite
+    if [ -d /run/ostree-booted ]; then
+        printf 'rpm-ostree'
+        return 0
+    fi
+
     # Installed foreign package managers must not select root commands for this OS.
     identities=$(
         if [ -r /etc/os-release ]; then
@@ -297,6 +303,7 @@ package_manager() {
             printf '%s %s' "${ID:-}" "${ID_LIKE:-}"
         fi
     )
+
     native_manager=
     for family in $identities; do
         case "$family" in
@@ -343,6 +350,7 @@ show_package_command() {
         apt-get:build) command_text='sudo apt-get install bash coreutils clang llvm lld' ;;
         dnf:build) command_text='sudo dnf install bash coreutils clang llvm lld' ;;
         pacman:build) command_text='sudo pacman -S --needed bash coreutils clang llvm lld' ;;
+        rpm-ostree:install) command_text='rpm-ostree install python3 python3-pip coreutils curl tar gzip && echo "Reboot to apply rpm-ostree."' ;;
         *) return 1 ;;
     esac
     printf 'Suggested command for %s (package availability depends on your distro):\n' "$manager" >&2

@@ -88,8 +88,8 @@ def require_idle():
 
 
 def validate_paths(steam, library, proton):
-    if '.var/app/com.valvesoftware.Steam' in str(steam):
-        raise ValueError('Flatpak Steam is not supported by this installer. No files changed.')
+    #if '.var/app/com.valvesoftware.Steam' in str(steam):
+    #   raise ValueError('Flatpak Steam is not supported by this installer. No files changed.')
     if not (steam / 'steamapps').is_dir():
         raise ValueError(f'Not a Steam installation: {steam}')
     app = library / 'steamapps/compatdata/3218230'
@@ -204,7 +204,7 @@ def main():
         raise ValueError('Run as your normal Steam user, without sudo.')
     verify_artifacts()
     home = Path.home()
-    roots = [p for p in (home / '.local/share/Steam', home / '.steam/steam') if (p / 'steamapps').is_dir()]
+    roots = [p for p in (home / '.local/share/Steam', home / '.steam/steam', home / '.var/app/com.valvesoftware.Steam/data/Steam') if (p / 'steamapps').is_dir()]
     steam = choose('Steam installation (--steam-root)', roots, args.steam_root, args.yes)
     all_libraries = libraries(steam)
     installed = [p for p in all_libraries if (p / 'steamapps/compatdata/3218230/pfx').is_dir()]
